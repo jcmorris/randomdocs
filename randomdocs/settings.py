@@ -34,6 +34,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+SECURE_SSL_REDIRECT = True
 INTERNAL_IPS = ['127.0.0.1']
 ROOT_URLCONF = 'randomdocs.urls'
 TEMPLATES = [
