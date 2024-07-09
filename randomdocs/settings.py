@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-# from decouple import config
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -56,6 +56,9 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT', default='5432'),
     }
 }
+
+DATABASES['default'].update(dj_database_url.config(conn_max_age=600, ssl_require=True))
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
