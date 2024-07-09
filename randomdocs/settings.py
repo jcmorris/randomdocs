@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 DEBUG = os.environ.get('DJANGO_DEBUG', default=False)
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['rocky-reaches-25387-c6b36f23f065.herokuapp.com', 'localhost', '127.0.0.1']
 INSTALLED_APPS = [
     'debug_toolbar',
     'django.contrib.admin',
