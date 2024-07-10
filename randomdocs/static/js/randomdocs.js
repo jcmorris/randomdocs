@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ['#65C18C', '#C1F4C5', '#FFBED8'], // https://colorhunt.co/palette/65c18cc1f4c5ffbed8ff7ba9
         ['#A3E4DB', '#1C6DD0', '#FED1EF'], // https://colorhunt.co/palette/fff8f3a3e4db1c6dd0fed1ef
         ['#C9CCD5', '#E4D8DC', '#FFE3E3'],
-        // ['#', '#', '#'],
     ];
     const randomPalette = palettes[Math.floor(Math.random() * palettes.length)];
     randomSquare1.style.backgroundColor = randomPalette[0];
@@ -35,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     const createCategoryCard = (category, docs) => {
-        console.log('category-card')
         const container = document.getElementById('grid-container');
         const capitalizeIfUppercase = (text) => {
             text = text.replaceAll('_', ' ');
@@ -45,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return text;
         }
         const categoryName = capitalizeIfUppercase(docs[0].category__name);
-        console.log(categoryName, "categoryName")
         let cardHTML = `<div class="card ${category}-card">
                         <h3>${categoryName}</h3>
                         <ul>`;
@@ -63,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/api/tech-docs/')
             .then(response => response.json())
             .then(data => {
-                console.log(data, "data")
                 for (const [category, docs] of Object.entries(data)) {
                     createCategoryCard(category, docs);
                 }
@@ -72,11 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     (function refresh() {
         const rightSquare = document.getElementById('right-square');
-        if (rightSquare) {  // Check if element exists
-            rightSquare.addEventListener('click', () => {
-               window.location.reload();
-            });
-        }
+        rightSquare.addEventListener('click', () => window.location.reload());
     })();
     loadDocs();
     assignRandomEmojis();
