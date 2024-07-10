@@ -12,6 +12,11 @@ body {
     background-image: linear-gradient(to right, #f4f4f4 1px, transparent 1px), linear-gradient(to bottom, #f4f4f4 1px, transparent 1px);
     background-size: 10px 10px;
 }
+#right-square {
+    position: absolute;
+    right: 0;
+    top:1px;
+}
 ul {
     list-style-type: square;
     padding-left: 15px;

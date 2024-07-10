@@ -33,3 +33,7 @@ class TechDocListViewAPI(View):
             'css_tricks_docs': serialize_tech_docs(TechDoc.objects.filter(category__source__name=CSS_TRICKS, category__name=CSS_TRICKS_ARCHIVE).order_by('?')[:15]),
         }
         return JsonResponse(tech_docs, safe=False)
+
+
+class AboutView(View):
+    template_name = 'about.html'

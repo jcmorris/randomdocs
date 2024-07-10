@@ -28,40 +28,56 @@ document.addEventListener('DOMContentLoaded', function() {
         return emojiList[Math.floor(Math.random() * emojiList.length)];
     }
     const assignRandomEmojis = () => {
-        const squares = document.querySelectorAll('.square');
+        const squares = document.querySelectorAll('.emoji-square');
         squares.forEach(square => {
             const randomEmoji = getRandomEmoji();
             square.innerHTML = `<a class="square-link" target="_blank" href="https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(randomEmoji)}">${randomEmoji}</a>`;
         });
     }
-    assignRandomEmojis();
-    fetch('/api/tech-docs/')
-        .then(response => response.json())
-        .then(data => {
-            for (const [category, docs] of Object.entries(data)) {
-                createCategoryCard(category, docs);
+    const createCategoryCard = (category, docs) => {
+        console.log('category-card')
+        const container = document.getElementById('grid-container');
+        const capitalizeIfUppercase = (text) => {
+            text = text.replaceAll('_', ' ');
+            if (text === text.toUpperCase() && text !== 'JS') {
+                return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
             }
-        })
-    function createCategoryCard(category, docs) {
-    const container = document.getElementById('grid-container');
-    function capitalizeIfUppercase(text) {
-        text = text.replaceAll('_', ' ');
-        if (text === text.toUpperCase() && text !== 'JS') {
-            return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+            return text;
         }
-        return text;
+        const categoryName = capitalizeIfUppercase(docs[0].category__name);
+        console.log(categoryName, "categoryName")
+        let cardHTML = `<div class="card ${category}-card">
+                        <h3>${categoryName}</h3>
+                        <ul>`;
+        docs.forEach(doc => {
+            const escapedTitle = doc.title.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace('_', '');
+            cardHTML += `<li>
+                    <a href="${doc.link}" target="_blank">${escapedTitle}</a>
+                 </li>`;
+        });
+        cardHTML += `</ul></div>`;
+        container.innerHTML += cardHTML;
     }
-    const categoryName = capitalizeIfUppercase(docs[0].category__name);
-    let cardHTML = `<div class="card ${category}-card">
-                    <h3>${categoryName}</h3>
-                    <ul>`;
-    docs.forEach(doc => {
-        const escapedTitle = doc.title.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace('_', '');
-        cardHTML += `<li>
-                <a href="${doc.link}" target="_blank">${escapedTitle}</a>
-             </li>`;
-    });
-    cardHTML += `</ul></div>`;
-    container.innerHTML += cardHTML;
-}
+
+    const loadDocs = () => {
+        fetch('/api/tech-docs/')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data, "data")
+                for (const [category, docs] of Object.entries(data)) {
+                    createCategoryCard(category, docs);
+                }
+            });
+
+    }
+    (function refresh() {
+        const rightSquare = document.getElementById('right-square');
+        if (rightSquare) {  // Check if element exists
+            rightSquare.addEventListener('click', () => {
+               window.location.reload();
+            });
+        }
+    })();
+    loadDocs();
+    assignRandomEmojis();
 });
